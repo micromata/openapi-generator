@@ -24,9 +24,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -201,7 +199,13 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             writeOptional(outputFolder, new SupportingFile("logging.properties.mustache", "src/main/resources", "logging.properties"));
             writeOptional(outputFolder, new SupportingFile("microprofile-config.properties.mustache", "src/main/resources/META-INF", "microprofile-config.properties"));
             writeOptional(outputFolder, new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml"));
-        } 
+        }
+        
+        if(useJackson) {
+            additionalProperties.put("jackson", "true");
+            useOneOfInterfaces = true;
+            addOneOfInterfaceImports = true;
+        }
     }
 
     @Override
@@ -295,4 +299,18 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         computed = sanitizeName(computed);
         return camelize(computed) + "Api";
     }
+
+    @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+            Map<String, String> oneImport = new HashMap<String, String>() {{
+                put("import", importMapping.get(i));
+            }};
+            if (!imports.contains(oneImport)) {
+                imports.add(oneImport);
+            }
+        }
+    }
+
+
 }
