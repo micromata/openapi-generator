@@ -137,17 +137,19 @@ script:
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
   - mvn --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  #- mvn --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   # test maven plugin
-  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/spring.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  # test gradle plugin
-  - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
-  - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)
+  #- mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  #- mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  #- mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  #- mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/spring.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  ## test gradle plugin
+  #- (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
+  #- (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)
 after_success:
   # push to maven repo
+  - export TRAVIS_TAG=v4.3.1
+  - export TRAVIS_BRANCH=master
   - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ]; then
         echo "Publishing from branch $TRAVIS_BRANCH";
@@ -178,42 +180,42 @@ after_success:
       fi;
     fi;
   ## docker: build and push openapi-generator-online to DockerHub
-  - if [ $DOCKER_HUB_USERNAME ]; then
-      echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
-      export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
-      export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
-      docker build --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
-      if [ ! -z "$TRAVIS_TAG" ]; then
-          docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG;
-      fi;
-      if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then
-          docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME";
-      fi;
-    fi;
-  ## docker: build cli image and push to Docker Hub
-  - if [ $DOCKER_HUB_USERNAME ]; then
-      echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
-      cp docker-entrypoint.sh ./modules/openapi-generator-cli;
-      export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
-      export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
-      docker build --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
-      if [ ! -z "$TRAVIS_TAG" ]; then
-          docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG;
-      fi;
-      if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then
-          docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME;
-          echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
-      fi;
-    fi;
-  ## publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
-  - if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-      cd website;
-      git config --global user.name "${GH_NAME}";
-      git config --global user.email "${GH_EMAIL}";
-      echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc;
-      yarn install;
-      GIT_USER="${GH_NAME}" yarn run publish-gh-pages;
-    fi;
+  #- if [ $DOCKER_HUB_USERNAME ]; then
+  #    echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
+  #    export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
+  #    export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
+  #    docker build --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
+  #    if [ ! -z "$TRAVIS_TAG" ]; then
+  #        docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG;
+  #    fi;
+  #    if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then
+  #        docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME";
+  #    fi;
+  #  fi;
+  ### docker: build cli image and push to Docker Hub
+  #- if [ $DOCKER_HUB_USERNAME ]; then
+  #    echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
+  #    cp docker-entrypoint.sh ./modules/openapi-generator-cli;
+  #    export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
+  #    export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
+  #    docker build --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
+  #    if [ ! -z "$TRAVIS_TAG" ]; then
+  #        docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG;
+  #    fi;
+  #    if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then
+  #        docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME;
+  #        echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
+  #    fi;
+  #  fi;
+  ### publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
+  #- if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+  #    cd website;
+  #    git config --global user.name "${GH_NAME}";
+  #    git config --global user.email "${GH_EMAIL}";
+  #    echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc;
+  #    yarn install;
+  #    GIT_USER="${GH_NAME}" yarn run publish-gh-pages;
+  #  fi;
 
 env:
   - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli NODE_ENV=test CC=gcc-5 CXX=g++-5
