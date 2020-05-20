@@ -59,7 +59,7 @@
         <system>github</system>
         <url>https://github.com/openapitools/openapi-generator/issues</url>
     </issueManagement>
-    <distributionManagement>
+    <!--distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -68,7 +68,21 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-    </distributionManagement>
+    </distributionManagement-->
+    <distributionManagement>
+                <repository>
+                        <id>micromata</id>
+                        <name>ulib-release</name>
+                        <url>https://repo.micromata.de/nexus/content/repositories/ulib-release/</url>
+                </repository>
+                <snapshotRepository>
+                        <id>ulib-snapshot</id>
+                        <name>ulib-snapshot</name>
+                        <url>https://repo.micromata.de/nexus/content/repositories/ulib-snapshot/</url>
+                        <uniqueVersion>false</uniqueVersion>
+                </snapshotRepository>
+        </distributionManagement>
+
     <licenses>
         <license>
             <name>Apache License 2.0</name>
