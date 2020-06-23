@@ -6,7 +6,7 @@ import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
+        import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Model for testing model name same as property name
  **/
 @ApiModel(description = "Model for testing model name same as property name")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Name  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Name   implements Serializable {
   
   private @Valid Integer name;
   private @Valid Integer snakeCase;
@@ -144,4 +144,5 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 }
+
 

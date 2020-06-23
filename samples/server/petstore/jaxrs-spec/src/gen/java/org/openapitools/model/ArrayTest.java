@@ -9,7 +9,7 @@ import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
+        import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayTest  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayTest   implements Serializable {
   
   private @Valid List<String> arrayOfString = new ArrayList<String>();
   private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
@@ -123,4 +123,5 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 }
+
 

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
+        import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Model for testing model name starting with number
  **/
 @ApiModel(description = "Model for testing model name starting with number")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Model200Response  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Model200Response   implements Serializable {
   
   private @Valid Integer name;
   private @Valid String propertyClass;
@@ -101,4 +101,5 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 }
+
 

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
+        import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Model for testing model with \&quot;_class\&quot; property
  **/
 @ApiModel(description = "Model for testing model with \"_class\" property")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ClassModel  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ClassModel   implements Serializable {
   
   private @Valid String propertyClass;
 
@@ -80,4 +80,5 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 }
+
 

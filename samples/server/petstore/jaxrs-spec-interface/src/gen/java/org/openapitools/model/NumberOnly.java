@@ -7,7 +7,7 @@ import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
+        import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class NumberOnly  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class NumberOnly   implements Serializable {
   
   private @Valid BigDecimal justNumber;
 
@@ -79,4 +79,5 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 }
+
 
